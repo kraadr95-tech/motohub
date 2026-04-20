@@ -121,51 +121,53 @@
   const elOnline  = document.getElementById('stat-online');
 
   function animateCount(el, from, to, duration) {
+    // cancel any running animation on this element
+    if (el._animFrame) cancelAnimationFrame(el._animFrame);
     const start = performance.now();
     const tick  = (now) => {
       const p    = Math.min((now - start) / duration, 1);
       const ease = 1 - Math.pow(1 - p, 4);
-      el.textContent = Math.round(from + (to - from) * ease).toLocaleString('pl-PL');
-      if (p < 1) requestAnimationFrame(tick);
+      const val  = Math.round(from + (to - from) * ease);
+      el.textContent = val.toLocaleString('pl-PL');
+      if (p < 1) el._animFrame = requestAnimationFrame(tick);
     };
-    requestAnimationFrame(tick);
+    el._animFrame = requestAnimationFrame(tick);
+  }
+
+  function currentVal(el, fallback) {
+    const n = parseInt((el.textContent || '').replace(/\s|\u00a0/g, '').replace(',', ''));
+    return isNaN(n) ? fallback : n;
   }
 
   async function fetchStats() {
     try {
-      const res  = await fetch(API);
-      if (!res.ok) throw new Error(res.status);
+      const res  = await fetch(API, { cache: 'no-store' });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = await res.json();
 
       const members = data.approximate_member_count;
       const online  = data.approximate_presence_count;
 
       if (elMembers && members) {
-        const prev = parseInt(elMembers.textContent.replace(/\s/g, '')) || 1482;
-        animateCount(elMembers, prev, members, 1800);
+        animateCount(elMembers, currentVal(elMembers, members), members, 1800);
       }
-
       if (elOnline && online) {
-        const prev = parseInt(elOnline.textContent) || 0;
-        animateCount(elOnline, prev, online, 1800);
+        animateCount(elOnline, currentVal(elOnline, 0), online, 1800);
       }
     } catch (err) {
-      // API niedostępne — zostają wartości domyślne
-      console.warn('Discord API error:', err);
-      if (elMembers && elMembers.textContent === '1482') {
+      console.warn('Discord API niedostępne:', err.message);
+      // Pokaż chociaż wartość domyślną z animacją
+      if (elMembers && currentVal(elMembers, 0) === 0) {
         animateCount(elMembers, 0, 1482, 1800);
       }
     }
   }
 
-  // Pobierz od razu po załadowaniu
+  // Uruchom od razu
   fetchStats();
-
   // Odświeżaj co 5 minut
   setInterval(fetchStats, 5 * 60 * 1000);
 })();
-
-
 
 
 
