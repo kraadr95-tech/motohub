@@ -18,7 +18,7 @@
   <nav class="nav" id="nav">
     <div class="nav__inner">
       <div class="nav__logo">
-        <img src="https://i.ibb.co/svnT7mFS/ezgif-37c396cd7192dc21.gif" alt="MotoHub Polska" class="nav__logo-img nav__logo-gif" />
+        <img src="https://cdn.discordapp.com/attachments/1011145125981868062/1480123075482751059/1772830555984.png?ex=69e73808&is=69e5e688&hm=cf892200cd5875d997a4d6dd8dfb418abcc83ee861b3cc3be43c97f1122499e1&" alt="MotoHub Polska" class="nav__logo-img" />
       </div>
       <a href="https://discord.com/invite/motohub-polska-spolecznosc-motocyklowa-1191618604026826844"
          class="nav__cta" target="_blank" rel="noopener">
@@ -35,20 +35,22 @@
 
     <div class="hero__inner">
 
-      <!-- Animated logo -->
-      <div class="hero__logo reveal" data-delay="0">
-        <img src="https://i.ibb.co/svnT7mFS/ezgif-37c396cd7192dc21.gif" alt="MotoHub Polska" class="hero__logo-gif" />
-      </div>
-
-      <div class="badge reveal" data-delay="100">
+      <div class="badge reveal" data-delay="0">
         <span class="badge__dot"></span>
         <span>Aktywna społeczność · Discord</span>
       </div>
 
-      <h1 class="hero__title reveal" data-delay="100">
-        <span class="line">Jeździmy</span>
-        <span class="line accent">razem.</span>
-      </h1>
+      <div class="hero__title-row reveal" data-delay="100">
+        <img
+          src="https://cdn.discordapp.com/attachments/1011145125981868062/1480123075482751059/1772830555984.png?ex=69e73808&is=69e5e688&hm=cf892200cd5875d997a4d6dd8dfb418abcc83ee861b3cc3be43c97f1122499e1&"
+          alt="MotoHub Polska"
+          class="hero__logo-static"
+        />
+        <h1 class="hero__title">
+          <span class="line">Jeździmy</span>
+          <span class="line accent">razem.</span>
+        </h1>
+      </div>
 
       <p class="hero__sub reveal" data-delay="240">
         MotoHub Polska to serce polskiej moto-społeczności — aktywne kanały,
@@ -67,7 +69,7 @@
       <div class="stats reveal" data-delay="500">
         <div class="stat">
           <div class="stat__row">
-            <span class="stat__num" data-target="1482">0</span>
+            <span class="stat__num" id="stat-members" data-target="1482">1482</span>
             <span class="stat__plus">+</span>
           </div>
           <span class="stat__label">motocyklistów</span>
@@ -75,16 +77,17 @@
         <div class="stat__sep"></div>
         <div class="stat">
           <div class="stat__row">
-            <span class="stat__num" data-target="19">0</span>
+            <span class="stat__num" id="stat-online">–</span>
+            <span class="stat__online-dot" id="online-dot"></span>
           </div>
-          <span class="stat__label">kanałów tematycznych</span>
+          <span class="stat__label">online teraz</span>
         </div>
         <div class="stat__sep"></div>
         <div class="stat">
           <div class="stat__row">
-            <span class="stat__num" data-target="365">0</span>
+            <span class="stat__num" data-target="19">0</span>
           </div>
-          <span class="stat__label">dni w roku online</span>
+          <span class="stat__label">kanałów tematycznych</span>
         </div>
       </div>
 
