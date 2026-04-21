@@ -4,7 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MotoHub Polska – Społeczność Motocyklowa</title>
-  <meta name="description" content="MotoHub Polska – największa polska społeczność motocyklowa na Discordzie. Dołącz do ponad 1482 motocyklistów!" />
+  <meta name="description" content="MotoHub Polska – największa polska społeczność motocyklowa na Discordzie. Ponad 1500 motocyklistów, wspólne przejazdy, kalendarz zlotów moto, porady techniczne, kupno i sprzedaż motocykli. Dołącz za darmo!" />
+  <meta name="keywords" content="społeczność motocyklowa, Discord motocykle, zloty motocyklowe, motocykliści Polska, forum motocyklowe, przejazdy motocyklowe" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;500;600;700;800;900&family=Barlow:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
@@ -49,8 +50,7 @@
       </div>
 
       <p class="hero__sub reveal" data-delay="240">
-        MotoHub Polska to serce polskiej moto-społeczności — aktywne kanały,
-        zloty, pomocni ludzie i wszystko, co kręci się na dwóch kółkach.
+        MotoHub Polska to największa polska społeczność motocyklowa na Discordzie — ponad 1500 motocyklistów w jednym miejscu. Wspólne przejazdy, kalendarz zlotów, porady techniczne, kupno i sprzedaż motocykli oraz codzienne rozmowy o wszystkim, co kręci się na dwóch kółkach.
       </p>
 
       <div class="hero__actions reveal" data-delay="360">
@@ -150,19 +150,32 @@
         <p class="feature__text feature__text--muted">Porady, luźne gadaki i wiele więcej…</p>
       </div>
 
-      <div class="feature reveal" data-delay="240">
+      <div class="feature feature--rides reveal" data-delay="240">
         <div class="feature__stripe"></div>
         <div class="feature__header">
           <svg class="feature__svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="12" r="1" fill="currentColor"/>
             <path d="M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0"/>
             <path d="M12 8v1m0 6v1M8 12H7m10 0h-1"/>
-            <path d="M5.6 5.6l.7.7m12.1 12.1.7.7M18.4 5.6l-.7.7M6.3 18.3l-.7.7"/>
           </svg>
           <span class="feature__tag">03</span>
         </div>
         <h3 class="feature__title">Wspólne przejazdy</h3>
-        <p class="feature__text">Organizuj i dołączaj do wyjazdów z innymi motocyklistami z całego kraju. Razem jest lepiej.</p>
+        <p class="feature__text">Organizuj trasy i dołączaj do wyjazdów z motocyklistami z całej Polski. Razem jest lepiej.</p>
+
+        <!-- Photo slider -->
+        <div class="rides-slider" id="rides-slider">
+          <div class="rides-slider__track" id="rides-track">
+            <img src="assets/rides/1.jpg" alt="Wspólny przejazd 1" class="rides-slide" loading="lazy" onerror="this.parentElement.parentElement.style.display='none'">
+            <img src="assets/rides/2.jpg" alt="Wspólny przejazd 2" class="rides-slide" loading="lazy">
+            <img src="assets/rides/3.jpg" alt="Wspólny przejazd 3" class="rides-slide" loading="lazy">
+            <img src="assets/rides/4.jpg" alt="Wspólny przejazd 4" class="rides-slide" loading="lazy">
+            <img src="assets/rides/5.jpg" alt="Wspólny przejazd 5" class="rides-slide" loading="lazy">
+          </div>
+          <button class="rides-slider__btn rides-slider__btn--prev" id="rides-prev" aria-label="Poprzednie">‹</button>
+          <button class="rides-slider__btn rides-slider__btn--next" id="rides-next" aria-label="Następne">›</button>
+          <div class="rides-slider__dots" id="rides-dots"></div>
+        </div>
       </div>
 
     </div>
