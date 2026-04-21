@@ -1,0 +1,123 @@
+name: Fetch Discord Events
+
+on:
+  schedule:
+    - cron: '0 * * * *'  # co godzinę
+  workflow_dispatch:       # ręczne uruchomienie w zakładce Actions
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Fetch forum posts from Discord
+        env:
+          DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
+        run: |
+          python3 - <<'PYEOF'
+          import urllib.request, json, os, re
+
+          TOKEN      = os.environ["DISCORD_TOKEN"]
+          CHANNEL_ID = "1494773504615256114"
+
+          def discord_get(path):
+              url = f"https://discord.com/api/v10{path}"
+              req = urllib.request.Request(url, headers={
+                  "Authorization": f"Bot {TOKEN}",
+                  "User-Agent": "MotoHubBot/1.0"
+              })
+              with urllib.request.urlopen(req, timeout=15) as r:
+                  return json.loads(r.read())
+
+          events = []
+
+          # 1. Aktywne wątki (forum posts)
+          try:
+              active = discord_get(f"/channels/{CHANNEL_ID}/threads/active")
+              threads = active.get("threads", [])
+          except Exception as e:
+              print(f"Active threads error: {e}")
+              threads = []
+
+          # 2. Zarchiwizowane wątki (starsze posty)
+          try:
+              archived = discord_get(f"/channels/{CHANNEL_ID}/threads/archived/public?limit=10")
+              threads += archived.get("threads", [])
+          except Exception as e:
+              print(f"Archived threads error: {e}")
+
+          # Sortuj po dacie utworzenia (newest first)
+          def thread_ts(t):
+              return t.get("thread_metadata", {}).get("create_timestamp", "") or t.get("id", "0")
+
+          threads.sort(key=thread_ts, reverse=True)
+          threads = threads[:2]
+
+          for thread in threads:
+              thread_id = thread["id"]
+              title     = thread.get("name", "")
+
+              # Pobierz pierwszą wiadomość wątku (opis/post)
+              img   = ""
+              desc  = ""
+              date  = thread.get("thread_metadata", {}).get("create_timestamp", "")
+
+              try:
+                  msgs = discord_get(f"/channels/{thread_id}/messages?limit=1")
+                  if msgs:
+                      msg  = msgs[0]
+                      desc = msg.get("content", "")
+                      date = msg.get("timestamp", date)
+
+                      # Zdjęcie z załączników
+                      for att in msg.get("attachments", []):
+                          ct = att.get("content_type", "")
+                          if ct.startswith("image"):
+                              img = att.get("url", "")
+                              break
+
+                      # Zdjęcie z embeds
+                      if not img:
+                          for emb in msg.get("embeds", []):
+                              img = (emb.get("image") or emb.get("thumbnail") or {}).get("url", "")
+                              if img:
+                                  break
+              except Exception as e:
+                  print(f"Message fetch error for {thread_id}: {e}")
+
+              # Województwo z tytułu (przed myślnikiem/dwukropkiem)
+              region = ""
+              m = re.match(r'^([^:\-–]+?)[\s]*[:\-–]', title)
+              if m:
+                  region = m.group(1).strip()
+
+              clean_title = re.sub(r'^[^:\-–]+[:\-–]\s*', '', title).strip() if region else title
+
+              events.append({
+                  "title":       clean_title,
+                  "region":      region,
+                  "description": desc[:120] + ("…" if len(desc) > 120 else ""),
+                  "image":       img,
+                  "date":        date,
+              })
+
+          # Zapisz JSON
+          os.makedirs("data", exist_ok=True)
+          with open("data/events.json", "w", encoding="utf-8") as f:
+              json.dump({"updated": __import__('datetime').datetime.utcnow().isoformat(), "events": events}, f, ensure_ascii=False, indent=2)
+
+          print(f"Saved {len(events)} events to data/events.json")
+          PYEOF
+
+      - name: Commit data
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/events.json
+          git diff --staged --quiet || git commit -m "chore: update discord events [skip ci]"
+          git push
