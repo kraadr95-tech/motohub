@@ -83,6 +83,7 @@
 /* ── NAVBAR SCROLL STATE ─────────────────────────── */
 (function () {
   const nav = document.getElementById('nav');
+  if (!nav) return;
   const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 30);
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
@@ -101,7 +102,10 @@
   if ('IntersectionObserver' in window) {
     const io = new IntersectionObserver((entries) => {
       entries.forEach(e => {
-        if (e.isIntersecting) { show(e.target); io.unobserve(e.target); }
+        if (e.isIntersecting) { 
+          show(e.target); 
+          io.unobserve(e.target); 
+        }
       });
     }, { threshold: .08, rootMargin: '0px 0px -50px 0px' });
 
@@ -121,7 +125,6 @@
   const elOnline  = document.getElementById('stat-online');
 
   function animateCount(el, from, to, duration) {
-    // cancel any running animation on this element
     if (el._animFrame) cancelAnimationFrame(el._animFrame);
     const start = performance.now();
     const tick  = (now) => {
@@ -135,7 +138,8 @@
   }
 
   function currentVal(el, fallback) {
-    const n = parseInt((el.textContent || '').replace(/\s|\u00a0/g, '').replace(',', ''));
+    const text = el.textContent || '';
+    const n = parseInt(text.replace(/\s|\u00a0/g, '').replace(',', ''));
     return isNaN(n) ? fallback : n;
   }
 
@@ -156,19 +160,15 @@
       }
     } catch (err) {
       console.warn('Discord API niedostępne:', err.message);
-      // Pokaż chociaż wartość domyślną z animacją
       if (elMembers && currentVal(elMembers, 0) === 0) {
         animateCount(elMembers, 0, 1482, 1800);
       }
     }
   }
 
-  // Uruchom od razu
   fetchStats();
-  // Odświeżaj co 5 minut
   setInterval(fetchStats, 5 * 60 * 1000);
 })();
-
 
 
 /* ── KALENDARZ ZLOTÓW — Discord JSON ─────────────── */
@@ -231,7 +231,6 @@
     }
   }
 
-  /* toggle open/close on click */
   card.style.cursor = 'pointer';
   card.addEventListener('click', (e) => {
     e.stopPropagation();
@@ -245,7 +244,6 @@
     }
   });
 
-  /* close when clicking outside */
   document.addEventListener('click', () => {
     if (isOpen) {
       card.classList.remove('cal-open');
@@ -253,21 +251,21 @@
     }
   });
 
-  /* shake hint when card scrolls into view — only once */
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (!entry.isIntersecting || shaken) return;
-      shaken = true;
-      io.unobserve(card);
-      loadEvents(); // preload in background
-      setTimeout(() => {
-        card.classList.add('cal-shake');
-        card.addEventListener('animationend', () => card.classList.remove('cal-shake'), { once: true });
-      }, 500);
-    });
-  }, { threshold: 0.5 });
-
-  io.observe(card);
+  if ('IntersectionObserver' in window) {
+    const ioCal = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting || shaken) return;
+        shaken = true;
+        ioCal.unobserve(card);
+        loadEvents(); 
+        setTimeout(() => {
+          card.classList.add('cal-shake');
+          card.addEventListener('animationend', () => card.classList.remove('cal-shake'), { once: true });
+        }, 500);
+      });
+    }, { threshold: 0.5 });
+    ioCal.observe(card);
+  }
 })();
 
 
@@ -277,14 +275,13 @@
   const prev   = document.getElementById('rides-prev');
   const next   = document.getElementById('rides-next');
   const dotsEl = document.getElementById('rides-dots');
-  if (!track) return;
+  if (!track || !prev || !next || !dotsEl) return;
 
   const slides = track.querySelectorAll('.rides-slide');
   const total  = slides.length;
   let current  = 0;
   let timer;
 
-  // Build dots
   slides.forEach((_, i) => {
     const d = document.createElement('div');
     d.className = 'rides-dot' + (i === 0 ? ' active' : '');
@@ -322,7 +319,10 @@
   resetTimer();
 })();
 
-
+/* ── STAT NUM ANIMATION ─────────────────────────── */
+(function () {
+  const nums = document.querySelectorAll('.stat__num[data-target]');
+  if (!nums.length) return;
 
   const run = (el, target) => {
     const t0 = performance.now();
@@ -333,21 +333,25 @@
     };
     requestAnimationFrame(tick);
   };
-  const io = new IntersectionObserver((entries) => {
+
+  const ioStats = new IntersectionObserver((entries) => {
     entries.forEach(e => {
-      if (e.isIntersecting) { run(e.target, parseInt(e.target.dataset.target)); io.unobserve(e.target); }
+      if (e.isIntersecting) { 
+        run(e.target, parseInt(e.target.dataset.target)); 
+        ioStats.unobserve(e.target); 
+      }
     });
   }, { threshold: .6 });
-  nums.forEach(el => io.observe(el));
+
+  nums.forEach(el => ioStats.observe(el));
 })();
 
-
+/* ── TILE HOVER EFFECT ───────────────────────────── */
 (function () {
   if (window.matchMedia('(pointer: coarse)').matches) return;
 
   document.querySelectorAll('.tile').forEach(tile => {
     let raf;
-
     tile.addEventListener('mousemove', (e) => {
       cancelAnimationFrame(raf);
       raf = requestAnimationFrame(() => {
@@ -369,7 +373,6 @@
   });
 })();
 
-
 /* ── CURSOR AMBIENT GLOW ─────────────────────────── */
 (function () {
   if (window.matchMedia('(pointer: coarse)').matches) return;
@@ -390,11 +393,11 @@
   }, { passive: true });
 })();
 
-
 /* ── SMOOTH ANCHOR SCROLL ────────────────────────── */
 document.querySelectorAll('a[href^="#"]').forEach(a => {
   a.addEventListener('click', e => {
-    const target = document.querySelector(a.getAttribute('href'));
+    const href = a.getAttribute('href');
+    const target = document.querySelector(href);
     if (!target) return;
     e.preventDefault();
     target.scrollIntoView({ behavior: 'smooth', block: 'start' });
