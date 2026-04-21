@@ -437,6 +437,47 @@ body {
   color: var(--muted2); font-weight: 300;
 }
 
+.feature__text--muted {
+  margin-top: 8px;
+  font-size: .78rem;
+  color: var(--muted);
+}
+
+/* channel list inside feature card */
+.channels-list {
+  display: flex; flex-wrap: wrap; gap: 7px;
+  margin-top: 4px;
+}
+
+.channel {
+  display: inline-flex; align-items: center; gap: 3px;
+  font-size: .78rem; font-weight: 500;
+  color: var(--muted2);
+  background: rgba(255,255,255,.04);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 4px 10px;
+  transition: color .2s, border-color .2s, background .2s;
+  white-space: nowrap;
+}
+
+.channel__hash {
+  color: var(--g);
+  opacity: .7;
+  font-weight: 700;
+  font-size: .82rem;
+}
+
+.feature:hover .channel {
+  border-color: rgba(57,255,20,.15);
+}
+
+.feature:hover .channel:hover {
+  color: var(--white);
+  background: rgba(57,255,20,.07);
+  border-color: rgba(57,255,20,.3);
+}
+
 /* ── CALENDAR OVERLAY ────────────────────────────── */
 .feature--calendar {
   /* needs overflow visible for overlay to expand */
