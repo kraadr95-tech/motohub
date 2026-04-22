@@ -70,11 +70,11 @@ body {
 .hero__title-row {
   display: flex;
   align-items: center;
-  gap: 24px;
+  gap: 28px;
 }
 
 .hero__logo-static {
-  height: clamp(80px, 11vw, 140px);
+  height: clamp(88px, 13vw, 180px);
   width: auto;
   flex-shrink: 0;
   filter:
@@ -144,7 +144,7 @@ body {
   position: relative; z-index: 1;
   min-height: 100svh;
   display: flex; align-items: center; justify-content: center;
-  padding: 130px 40px 100px;
+  padding: 60px 40px 80px;
   overflow: hidden;
 }
 
@@ -691,19 +691,23 @@ body {
   96%          { transform: translateY(-1px) rotate(-.5deg); }
 }
 
-/* hint dot on card */
-.feature--calendar::after {
-  content: 'NOWOŚCI';
+/* blinking hint on calendar card */
+.feature--calendar:not(.cal-open)::after {
+  content: '● Sprawdź najnowsze';
   position: absolute;
-  bottom: 16px; right: 16px;
+  bottom: 16px; left: 50%;
+  transform: translateX(-50%);
   font-family: var(--f-head);
-  font-size: .58rem; font-weight: 700;
-  letter-spacing: .18em;
+  font-size: .72rem; font-weight: 700;
+  letter-spacing: .12em;
   color: var(--g);
-  opacity: .5;
-  transition: opacity .3s;
+  white-space: nowrap;
+  animation: hint-blink 2s ease-in-out infinite;
 }
-.feature--calendar:hover::after { opacity: 0; }
+@keyframes hint-blink {
+  0%,100% { opacity: .9; }
+  50%      { opacity: .25; }
+}
 
 
 .socials {
@@ -959,14 +963,12 @@ body {
 }
 
 @media (max-width: 680px) {
-  .nav { padding: 16px 20px; }
-  .nav.scrolled { padding: 12px 20px; }
-  .hero { padding: 100px 20px 70px; }
+  .hero { padding: 40px 20px 60px; }
 
-  /* logo stays beside title on mobile, just smaller */
-  .hero__title-row { gap: 14px; align-items: center; }
-  .hero__logo-static { height: 72px; }
-  .hero__title { font-size: clamp(2.6rem, 13vw, 5rem); }
+  /* logo + title side by side on mobile — slightly smaller */
+  .hero__title-row { gap: 12px; align-items: center; }
+  .hero__logo-static { height: clamp(68px, 18vw, 90px); }
+  .hero__title { font-size: clamp(2.4rem, 12vw, 4.5rem); }
   .hero__title .accent { -webkit-text-stroke-width: 1.5px; }
 
   .hero__sub { font-size: .88rem; }
