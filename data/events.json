@@ -1,19 +1,19 @@
 {
-  "updated": "2026-08-12T08:10:01.045609Z",
+  "updated": "2026-08-12T09:36:53.009169Z",
   "events": [
+    {
+      "title": "PIKNIK W POSTRONNEJ",
+      "region": "Świętokrzyskie",
+      "description": "Koprzywnica – 14 sierpnia 2026\n https://gdzienazlot.pl/swietokrzyskie/piknik-w-postronnej/?utm_source=motohub",
+      "image": "https://gdzienazlot.pl/wp-content/uploads/2026/08/file_322.jpg",
+      "date": "2026-08-12T09:23:33.982000+00:00"
+    },
     {
       "title": "Mazurskie - Piknik Motocyklowy w Pasłęku 2026",
       "region": "Warmińsko",
       "description": "Pasłęk ponownie staje się miejscem spotkania dla miłośników motocykli, oferując moc atrakcji i niezapomnianą atmosferę. Program wydarzenia •Piątek: 16…",
       "image": "https://gdzienazlot.pl/wp-content/uploads/2026/08/cover-7.jpg",
       "date": "2026-08-11T20:23:39.520000+00:00"
-    },
-    {
-      "title": "DZIEŃ OTWARTY ANGRY WOLF WAŁBRZYCH",
-      "region": "Dolnośląskie",
-      "description": "Wałbrzych – 15 sierpnia 2026\n https://gdzienazlot.pl/dolnoslaskie/dzien-otwarty-angry-wolf-walbrzych/?utm_source=motohub",
-      "image": "https://gdzienazlot.pl/wp-content/uploads/2026/08/file_320.jpg",
-      "date": "2026-08-11T20:23:38.785000+00:00"
     }
   ]
 }
