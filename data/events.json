@@ -1,19 +1,19 @@
 {
-  "updated": "2026-08-26T23:53:47.150145Z",
+  "updated": "2026-08-27T06:23:45.623533Z",
   "events": [
+    {
+      "title": "Świeć przykładem nocą",
+      "region": "Mazowieckie",
+      "description": "Szczegóły organizacyjne zbiórki. Organizator: Fundacja „Jednym Śladem”.\n https://gdzienazlot.pl/mazowieckie/swiec-przykladem-noca/?utm_source=motohub",
+      "image": "https://gdzienazlot.pl/wp-content/uploads/2026/08/WA_1787778462837.jpg",
+      "date": "2026-08-27T04:55:38.198000+00:00"
+    },
     {
       "title": "Pomorskie - ZLOT MOTOCYKLOWY W SUCHEJ",
       "region": "Kujawsko",
       "description": "Sucha – 29 sierpnia 2023\n https://gdzienazlot.pl/kujawsko-pomorskie/zlot-motocyklowy-w-suchej/?utm_source=motohub",
       "image": "https://gdzienazlot.pl/wp-content/uploads/2026/08/file_351.jpg",
       "date": "2026-08-26T04:29:44.265000+00:00"
-    },
-    {
-      "title": "IV PIKNIK PARAFIALNY II ZJAZD MOTOCYKLOWY KU CZCI ŚP. KS. WIESŁAWA PIEJI",
-      "region": "Podkarpackie",
-      "description": "Sędziszów Małopolski – 30 sierpnia 2026\n https://gdzienazlot.pl/podkarpackie/iv-piknik-parafialny-ii-zjazd-motocyklowy-ku-czci-sp-ks-wieslawa-pieji/?u…",
-      "image": "https://gdzienazlot.pl/wp-content/uploads/2026/08/file_349-e1787717737439.webp",
-      "date": "2026-08-26T04:29:42.897000+00:00"
     }
   ]
 }
